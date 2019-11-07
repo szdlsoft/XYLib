@@ -1,6 +1,8 @@
 ﻿using System;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Users;
+using System.Collections.Generic;
+
 
 namespace Bodhi.XYLib.Users
 {
@@ -44,6 +46,8 @@ namespace Bodhi.XYLib.Users
          *
          * public virtual string MyProperty { get; set; }
          */
+
+        public ICollection<Libary> Libaries { get; set; }
 
         private AppUser()
         {

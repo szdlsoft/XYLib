@@ -24,6 +24,8 @@ namespace Bodhi.XYLib.EntityFrameworkCore
         /* Add DbSet properties for your Aggregate Roots / Entities here.
          * Also map them inside XYLibDbContextModelCreatingExtensions.ConfigureXYLib
          */
+        public DbSet<Libary> Libary { get; set; }
+        public DbSet<BookInfo> BookInfo { get; set; }
 
         public XYLibDbContext(DbContextOptions<XYLibDbContext> options)
             : base(options)

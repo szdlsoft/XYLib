@@ -1,0 +1,52 @@
+﻿@page
+@using Bodhi.XYLib.Web.Pages.BookInfo
+@inherits Bodhi.XYLib.Web.Pages.XYLibPage
+@model IndexModel
+
+@section scripts
+{
+    <abp-script src="/Pages/BookInfo/index.js" />
+}
+
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file">
+            <span asp-validation-for="FileUpload.FormFile"></span>
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+</form>
+
+<p class="result">
+    @Model.Result
+</p>
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <h2>@L["BookInfo"]</h2>
+            </abp-column>            
+
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="BookInfoTable">
+            <thead>
+                <tr>
+                    <th>@L["ISBN"]</th>
+                    <th>@L["Title"]</th>
+                    <th>@L["Owner"]</th>
+                    <th>@L["Publisher"]</th>
+                    <th>@L["Place"]</th>
+                    <th>@L["LibName"]</th>
+                    <th>@L["LibAddress"]</th>
+                </tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>
