@@ -47,7 +47,7 @@ namespace Bodhi.XYLib.Users
          * public virtual string MyProperty { get; set; }
          */
 
-        public ICollection<Libary> Libaries { get; set; }
+        //public ICollection<Libary> Libaries { get; set; }
 
         private AppUser()
         {

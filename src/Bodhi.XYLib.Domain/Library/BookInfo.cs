@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Bodhi.XYLib
 {
-    public class BookInfo : FullAuditedEntity<long>
+    public class BookInfo : CreationAuditedEntity<long>
     {
         public Libary Libary { get; set; }
         /// <summary>

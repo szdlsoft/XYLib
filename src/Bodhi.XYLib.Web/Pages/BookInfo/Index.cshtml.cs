@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Uow;
 
 namespace Bodhi.XYLib.Web.Pages.BookInfo
 {
@@ -19,8 +21,11 @@ namespace Bodhi.XYLib.Web.Pages.BookInfo
         private readonly string _targetFilePath;
 
         IBookInfoAppService _bookInfoAppService;
+        IRepository<Libary, long> _libRepository;
 
-        public IndexModel(IConfiguration config, IBookInfoAppService bookInfoAppService)
+        public IndexModel(IConfiguration config
+            , IBookInfoAppService bookInfoAppService
+            , IRepository<Libary, long> libRepository)
         {
             _fileSizeLimit = config.GetValue<long>("FileSizeLimit", 100*1000*1000);
 
@@ -28,6 +33,7 @@ namespace Bodhi.XYLib.Web.Pages.BookInfo
             _targetFilePath = config.GetValue<string>("StoredFilesPath", "Uploads");
 
             _bookInfoAppService = bookInfoAppService;
+            _libRepository = libRepository;
         }
 
         [BindProperty]
@@ -42,7 +48,7 @@ namespace Bodhi.XYLib.Web.Pages.BookInfo
         {
             if (!ModelState.IsValid)
             {
-                Result = "Please correct the form.";
+                Result = "Please correct the form1.";
                 return Page();
             }
 
@@ -53,15 +59,28 @@ namespace Bodhi.XYLib.Web.Pages.BookInfo
 
             if (!ModelState.IsValid)
             {
-                Result = "Please correct the form.";
+                Result = "Please correct the form2.";
                 return Page();
             }
 
-            Result = _bookInfoAppService.Import(formFileContent);
+            //Result = _bookInfoAppService.Import(formFileContent);
+
+            Libary lib = ExcelHelper.Import(formFileContent);
+            Result = BatchSave(lib);
+
             return Page();
             //return RedirectToPage("./Index");
         }
 
+        private string BatchSave(Libary lib)
+        {
+            using (var uow = UnitOfWorkManager.Begin())
+            {
+                _libRepository.Insert(lib);
+                uow.SaveChanges();
+            }
+            return $"成功导入 {lib.Books.Count}条记录";
+        }
 
     }
 

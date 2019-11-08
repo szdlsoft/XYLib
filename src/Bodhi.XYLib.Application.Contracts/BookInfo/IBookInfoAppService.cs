@@ -9,6 +9,6 @@ namespace Bodhi.XYLib
     public interface IBookInfoAppService :
         Volo.Abp.Application.Services.ICrudAppService<BookInfoDto, long>
     {
-        string Import(Stream formFileContent);
+        //string Import(Stream formFileContent);
     }
 }

@@ -17,7 +17,7 @@ namespace Bodhi.XYLib.EntityFrameworkCore
             builder.Entity<Libary>(b =>
             {
                 b.ToTable(XYLibConsts.DbTablePrefix + "Libary", XYLibConsts.DbSchema);
-                b.Ignore(l => l.User);
+                //b.Ignore(l => l.User);
             });
             builder.Entity<BookInfo>(b =>
             {

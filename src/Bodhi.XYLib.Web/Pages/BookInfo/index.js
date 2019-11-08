@@ -11,10 +11,11 @@
         order: [[1, "asc"]],
         ajax: abp.libs.datatables.createAjax(bodhi.xYLib.bookInfo.getList),
         columnDefs: [
-            { data: "iSBN" },
+            { data: "isbn" },
             { data: "title" },
             { data: "owner" },
             { data: "publisher" },
+            { data: "count" },
             { data: "place" },
             { data: "libName" },
             { data: "libAddress" },

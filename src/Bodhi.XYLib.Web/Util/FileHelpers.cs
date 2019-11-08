@@ -57,7 +57,7 @@ namespace Bodhi.XYLib.Web.Util
         // systems. For more information, see the topic that accompanies this sample
         // app.
 
-        public static async Task<Stream> ProcessFormFile<T>(IFormFile formFile,
+        public static async Task<byte[]> ProcessFormFile<T>(IFormFile formFile,
             ModelStateDictionary modelState, string[] permittedExtensions,
             long sizeLimit)
         {
@@ -93,7 +93,7 @@ namespace Bodhi.XYLib.Web.Util
                 modelState.AddModelError(formFile.Name,
                     $"{fieldDisplayName}({trustedFileNameForDisplay}) is empty.");
 
-                return null;
+                return new byte[0];
             }
 
             if (formFile.Length > sizeLimit)
@@ -103,7 +103,7 @@ namespace Bodhi.XYLib.Web.Util
                     $"{fieldDisplayName}({trustedFileNameForDisplay}) exceeds " +
                     $"{megabyteSizeLimit:N1} MB.");
 
-                return null;
+                return new byte[0];
             }
 
             try
@@ -131,7 +131,7 @@ namespace Bodhi.XYLib.Web.Util
                     }
                     else
                     {
-                        return memoryStream;
+                        return memoryStream.ToArray();
                     }
                 }
             }
@@ -143,7 +143,7 @@ namespace Bodhi.XYLib.Web.Util
                 // Log the exception
             }
 
-            return null;
+            return new byte[0];
         }
 
         public static async Task<byte[]> ProcessStreamedFile(
@@ -206,65 +206,7 @@ namespace Bodhi.XYLib.Web.Util
                 return false;
             }
 
-            data.Position = 0;
-
-            using (var reader = new BinaryReader(data))
-            {
-                if (ext.Equals(".txt") || ext.Equals(".csv") || ext.Equals(".prn"))
-                {
-                    if (_allowedChars.Length == 0)
-                    {
-                        // Limits characters to ASCII encoding.
-                        for (var i = 0; i < data.Length; i++)
-                        {
-                            if (reader.ReadByte() > sbyte.MaxValue)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Limits characters to ASCII encoding and
-                        // values of the _allowedChars array.
-                        for (var i = 0; i < data.Length; i++)
-                        {
-                            var b = reader.ReadByte();
-                            if (b > sbyte.MaxValue ||
-                                !_allowedChars.Contains(b))
-                            {
-                                return false;
-                            }
-                        }
-                    }
-
-                    return true;
-                }
-
-                // Uncomment the following code block if you must permit
-                // files whose signature isn't provided in the _fileSignature
-                // dictionary. We recommend that you add file signatures
-                // for files (when possible) for all file types you intend
-                // to allow on the system and perform the file signature
-                // check.
-                /*
-                if (!_fileSignature.ContainsKey(ext))
-                {
-                    return true;
-                }
-                */
-
-                // File signature check
-                // --------------------
-                // With the file signatures provided in the _fileSignature
-                // dictionary, the following code tests the input content's
-                // file signature.
-                var signatures = _fileSignature[ext];
-                var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
-
-                return signatures.Any(signature =>
-                    headerBytes.Take(signature.Length).SequenceEqual(signature));
-            }
+            return true;
         }
     }
 }

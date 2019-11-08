@@ -4,14 +4,16 @@ using Bodhi.XYLib.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bodhi.XYLib.Migrations
 {
     [DbContext(typeof(XYLibMigrationsDbContext))]
-    partial class XYLibMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108010739_update_Libray")]
+    partial class update_Libray
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

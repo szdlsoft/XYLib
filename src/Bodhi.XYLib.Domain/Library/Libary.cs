@@ -11,12 +11,12 @@ namespace Bodhi.XYLib
     /// <summary>
     /// 图书馆
     /// </summary>
-    public class Libary : FullAuditedEntity<long>
+    public class Libary : CreationAuditedEntity<long>
     {
         /// <summary>
         /// 所属用户
         /// </summary>
-        public IdentityUser User { get; set; }
+        //public IdentityUser User { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
